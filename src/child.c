@@ -39,6 +39,9 @@ void close_file(FILE *fp, ...) {
 int child_process(FILE *log_fp, struct config *_config) {
     FILE *input_file = NULL, *output_file = NULL, *error_file = NULL;
 
+
+    // CHILD_ERROR_EXIT(SETRLIMIT_FAILED);
+
     struct rlimit max_stack;
     max_stack.rlim_cur = max_stack.rlim_max = (rlim_t) (_config->max_stack);
     if (setrlimit(RLIMIT_STACK, &max_stack) != 0) {
@@ -137,7 +140,7 @@ int child_process(FILE *log_fp, struct config *_config) {
     }
 
     // load seccomp
-    if (_config->seccomp_rule_name != NULL) {
+    if (strcmp("none", _config->seccomp_rule_name) != 0&&_config->seccomp_rule_name != NULL) {
         if (strcmp("c_cpp", _config->seccomp_rule_name) == 0) {
             if (c_cpp_seccomp_rules(_config) != SUCCESS) {
                 CHILD_ERROR_EXIT(LOAD_SECCOMP_FAILED);

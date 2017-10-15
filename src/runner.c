@@ -61,8 +61,10 @@ void run(struct config *_config, struct result *_result) {
     }
     else if (child_pid == 0) {
         child_process(log_fp, _config);
+        exit(0);
     }
     else if (child_pid > 0){
+        // this is where the child process run
         // create new thread to monitor process running time
         pthread_t tid = 0;
         if (_config->max_real_time != UNLIMITED) {
@@ -82,10 +84,14 @@ void run(struct config *_config, struct result *_result) {
         // wait for child process to terminate
         // on success, returns the process ID of the child whose state has changed;
         // On error, -1 is returned.
-        if (wait4(child_pid, &status, WSTOPPED, &resource_usage) == -1) {
+        int cpid = wait4(child_pid, &status, WSTOPPED, &resource_usage);
+        if (cpid == -1) {
             kill_pid(child_pid);
             ERROR_EXIT(WAIT_FAILED);
         }
+
+        // LOG_INFO(log_fp,"wait succeed, child process %d ended\n",cpid);
+
         // get end time
         gettimeofday(&end, NULL);
         _result->real_time = (int) (end.tv_sec * 1000 + end.tv_usec / 1000 - start.tv_sec * 1000 - start.tv_usec / 1000);
@@ -135,7 +141,7 @@ void run(struct config *_config, struct result *_result) {
         if (_config->max_cpu_time != UNLIMITED && _result->cpu_time > _config->max_cpu_time) {
             _result->result = CPU_TIME_LIMIT_EXCEEDED;
         }
-
+        
         log_close(log_fp);
     }
 }
