@@ -8,3 +8,4 @@ __pycache__
 *.pyc
 settings.json
 cmake-build-debug/
+.vscode/
