@@ -1,6 +1,8 @@
+#Judger [![Build Status](https://travis-ci.org/QingdaoU/Judger.svg?branch=newnew)](https://travis-ci.org/QingdaoU/Judger)
 
-#Judger [![Build Status](https://travis-ci.org/QingdaoU/Judger.svg?branch=master)](https://travis-ci.org/QingdaoU/Judger)
+Judger for OnlineJudge 
 
+<<<<<<< HEAD
 
 OnlineJudge 判题沙箱
 
@@ -34,3 +36,6 @@ ptrace在很多OJ上都有应用，但是不可否认的是ptrace存在一个重
  - https://github.com/lodevil/Lo-runner
  - https://github.com/quark-zju/lrun
  - https://github.com/daveho/EasySandbox
+=======
+[Document](http://docs.onlinejudge.me/Judger/)
+>>>>>>> newnew
